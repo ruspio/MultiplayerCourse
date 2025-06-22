@@ -21,6 +21,27 @@ void AMyBox::BeginPlay()
 	
 	SetReplicates(true);
 	SetReplicateMovement(true);
+
+	if (HasAuthority())
+	{
+		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreseReplicatedVar, 2.f, false);
+	}
+	
+}
+
+void AMyBox::DecreseReplicatedVar()
+{
+	if (HasAuthority())
+	{
+		ReplicatedVar -= 1.f;
+		OnRep_ReplicatedVar();
+		if (ReplicatedVar > 0)
+		{
+			GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreseReplicatedVar, 2.f, false);
+		}
+		
+	}
+	
 }
 
 // Called every frame
