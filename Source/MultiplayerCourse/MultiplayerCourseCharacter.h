@@ -55,7 +55,10 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
+
+private:
+	UFUNCTION(Server, Reliable, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
+	void ServerRPCFunction();
 
 protected:
 

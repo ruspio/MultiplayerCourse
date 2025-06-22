@@ -19,20 +19,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
+private:	
+	UPROPERTY(ReplicatedUsing = OnRep_ReplicatedVar, VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float ReplicatedVar;
+
 	FTimerHandle TestTimer;
+
+	UFUNCTION(BlueprintCallable, meta = (AllowPrivateAccess = "true"))
+	void OnRep_ReplicatedVar();
 
 	void DecreseReplicatedVar();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
-	UPROPERTY(ReplicatedUsing = OnRep_ReplicatedVar, BlueprintReadWrite)
-	float ReplicatedVar;
-
-	UFUNCTION(BlueprintCallable)
-	void OnRep_ReplicatedVar();
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

@@ -29,6 +29,23 @@ void AMyBox::BeginPlay()
 	
 }
 
+void AMyBox::OnRep_ReplicatedVar()
+{
+	if (HasAuthority())
+	{
+		FVector NewLocation = GetActorLocation() + FVector(0.f, 0.f, 200.f);
+		SetActorLocation(NewLocation);
+		
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Server: OnRep_ReplicatedVar"), true);
+	} else {
+		int32 EditorID = UE::GetPlayInEditorID();
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, 
+			FString::Printf(TEXT("Client %d: OnRep_ReplicatedVar"), EditorID), true
+		);
+	}
+	
+}
+
 void AMyBox::DecreseReplicatedVar()
 {
 	if (HasAuthority())
@@ -57,23 +74,6 @@ void AMyBox::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Server"), true);
 	}
 #endif
-}
-
-void AMyBox::OnRep_ReplicatedVar()
-{
-	if (HasAuthority())
-	{
-		FVector NewLocation = GetActorLocation() + FVector(0.f, 0.f, 200.f);
-		SetActorLocation(NewLocation);
-		
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Server: OnRep_ReplicatedVar"), true);
-	} else {
-		int32 EditorID = UE::GetPlayInEditorID();
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, 
-			FString::Printf(TEXT("Client %d: OnRep_ReplicatedVar"), EditorID), true
-		);
-	}
-	
 }
 
 void AMyBox::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const 
