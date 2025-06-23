@@ -60,6 +60,9 @@ private:
 	UFUNCTION(Server, Reliable, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
 	void ServerRPCFunction();
 
+	UPROPERTY(EditAnywhere)
+	UStaticMesh* SphereMesh;
+
 protected:
 
 	virtual void NotifyControllerChanged() override;
