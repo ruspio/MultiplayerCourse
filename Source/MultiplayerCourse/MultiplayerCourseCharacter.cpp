@@ -10,8 +10,11 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+
 #include "Engine/StaticMeshActor.h"
 #include "Net/UnrealNetwork.h"
+#include "Particles/ParticleSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -146,7 +149,12 @@ void AMultiplayerCourseCharacter::ServerRPCFunction_Implementation(int MyArg)
 			return;
 		}
 
-		AStaticMeshActor* StaticMeshActor = GetWorld()->SpawnActor<AStaticMeshActor>(AStaticMeshActor::StaticClass());
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = this;
+
+		AStaticMeshActor* StaticMeshActor = 
+			GetWorld()->SpawnActor<AStaticMeshActor>(SpawnParameters);
+		//StaticMeshActor->SetOwner();
 		if (StaticMeshActor)
 		{
 			StaticMeshActor->SetReplicates(true);
@@ -171,6 +179,19 @@ void AMultiplayerCourseCharacter::ServerRPCFunction_Implementation(int MyArg)
 			}
 		}
 	}
+}
+
+void AMultiplayerCourseCharacter::ClientRPCFunction_Implementation()
+{
+	FVector SpawnLocation = GetActorLocation() + FVector(0.f, 0.f, 100.f); 
+	UGameplayStatics::SpawnEmitterAtLocation(
+		GetWorld(), 
+		ParticleEffect, 
+		SpawnLocation, 
+		FRotator::ZeroRotator, 
+		true, 
+		EPSCPoolMethod::AutoRelease
+	);
 }
 
 bool AMultiplayerCourseCharacter::ServerRPCFunction_Validate(int MyArg)

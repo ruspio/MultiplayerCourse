@@ -11,6 +11,9 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
+
+class UParticleSystem;
+
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
@@ -59,9 +62,15 @@ protected:
 private:
 	UFUNCTION(Server, Reliable, WithValidation, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
 	void ServerRPCFunction(int MyArg);
+	
+	UFUNCTION(Client, Reliable, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
+	void ClientRPCFunction();
 
 	UPROPERTY(EditAnywhere)
 	UStaticMesh* SphereMesh;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* ParticleEffect;
 
 protected:
 

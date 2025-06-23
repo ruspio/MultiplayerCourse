@@ -60,10 +60,8 @@ void AMyBox::DecreseReplicatedVar()
 		if (ReplicatedVar > 0)
 		{
 			GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreseReplicatedVar, 2.f, false);
-		}
-		
-	}
-	
+		}		
+	}	
 }
 
 void AMyBox::MulticastRPCExplode_Implementation()
@@ -91,8 +89,7 @@ void AMyBox::MulticastRPCExplode_Implementation()
 			true, 
 			EPSCPoolMethod::AutoRelease
 		);
-	}
-	
+	}	
 }
 
 // Called every frame
