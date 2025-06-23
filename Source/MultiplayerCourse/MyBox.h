@@ -29,6 +29,9 @@ private:
 	void OnRep_ReplicatedVar();
 
 	void DecreseReplicatedVar();
+	
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
+	void MulticastRPCExplode();
 
 public:	
 	// Called every frame

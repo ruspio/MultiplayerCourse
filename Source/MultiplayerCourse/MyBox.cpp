@@ -24,7 +24,9 @@ void AMyBox::BeginPlay()
 
 	if (HasAuthority())
 	{
-		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreseReplicatedVar, 2.f, false);
+		GetWorld()->GetTimerManager().SetTimer(
+			TestTimer, this, &AMyBox::MulticastRPCExplode, 2.f, false
+		);
 	}
 	
 }
@@ -36,7 +38,9 @@ void AMyBox::OnRep_ReplicatedVar()
 		FVector NewLocation = GetActorLocation() + FVector(0.f, 0.f, 200.f);
 		SetActorLocation(NewLocation);
 		
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Server: OnRep_ReplicatedVar"), true);
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, 
+			TEXT("Server: OnRep_ReplicatedVar"), true
+		);
 	} else {
 		int32 EditorID = UE::GetPlayInEditorID();
 		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, 
@@ -59,6 +63,21 @@ void AMyBox::DecreseReplicatedVar()
 		
 	}
 	
+}
+
+void AMyBox::MulticastRPCExplode_Implementation()
+{
+	if (HasAuthority())
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
+			TEXT("Server: MulticastRPCExplode_Implementation"), true);
+		GetWorld()->GetTimerManager().SetTimer(
+			TestTimer, this, &AMyBox::MulticastRPCExplode, 2.f, false
+		);
+	} else {
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
+			TEXT("Client: MulticastRPCExplode_Implementation"), true);
+	}	
 }
 
 // Called every frame
