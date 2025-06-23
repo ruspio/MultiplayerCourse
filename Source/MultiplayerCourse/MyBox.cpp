@@ -3,6 +3,8 @@
 
 #include "MyBox.h"
 #include "Net/UnrealNetwork.h"
+#include "Particles/ParticleSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMyBox::AMyBox()
@@ -27,8 +29,7 @@ void AMyBox::BeginPlay()
 		GetWorld()->GetTimerManager().SetTimer(
 			TestTimer, this, &AMyBox::MulticastRPCExplode, 2.f, false
 		);
-	}
-	
+	}	
 }
 
 void AMyBox::OnRep_ReplicatedVar()
@@ -77,7 +78,21 @@ void AMyBox::MulticastRPCExplode_Implementation()
 	} else {
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
 			TEXT("Client: MulticastRPCExplode_Implementation"), true);
-	}	
+	}
+
+	if (!IsRunningDedicatedServer())
+	{
+		FVector SpawnLocation = GetActorLocation() + FVector(0.f, 0.f, 100.f); 
+		UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(), 
+			ExplosionEffect, 
+			SpawnLocation, 
+			FRotator::ZeroRotator, 
+			true, 
+			EPSCPoolMethod::AutoRelease
+		);
+	}
+	
 }
 
 // Called every frame

@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "MyBox.generated.h"
 
+class UParticleSystem;
+
 UCLASS()
 class MULTIPLAYERCOURSE_API AMyBox : public AActor
 {
@@ -24,6 +26,9 @@ private:
 	float ReplicatedVar;
 
 	FTimerHandle TestTimer;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* ExplosionEffect;
 
 	UFUNCTION(BlueprintCallable, meta = (AllowPrivateAccess = "true"))
 	void OnRep_ReplicatedVar();
