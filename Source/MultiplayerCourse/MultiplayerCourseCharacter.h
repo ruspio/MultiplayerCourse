@@ -57,8 +57,8 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 private:
-	UFUNCTION(Server, Reliable, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
-	void ServerRPCFunction();
+	UFUNCTION(Server, Reliable, WithValidation, BlueprintCallable, meta = (AllowPrivateAccess = "true"))
+	void ServerRPCFunction(int MyArg);
 
 	UPROPERTY(EditAnywhere)
 	UStaticMesh* SphereMesh;
