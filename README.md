@@ -1,4 +1,4 @@
-# Unreal Engine 5 C++ Multiplayer: Co-Op Game – Course Project
+# Unreal Engine 5 C++ Multiplayer: Co-Op Game – Course Section 1 & 2 Project
 
 This repository contains code and project files developed during the **"Unreal Engine 5 C++ Multiplayer: Make Your Own Co-Op Game"** course by GameDev.tv.  
 The project focuses on building a cooperative multiplayer shooter game using Unreal Engine 5 and C++.
